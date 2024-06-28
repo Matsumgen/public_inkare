@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>株ゲーム</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" type="text/css" href="kabu.css">
+</head>
+
+<body>
+    <h1>株ゲーム</h1>
+    <div class="chart-container">
+        <canvas id="myChart"></canvas>
+    </div>
+    <div id="company_name">日経平均</div>
+    <div class="button" id="button">
+        <label for="days_number" id="label_days">いつまで</label>
+        <input type="number" max="365" min="0" placeholder="0-365" id="days_number">
+        <label for="point_number" id="label_number">いくら</label>
+        <input type="number" min="0" id="point_number">
+        <button id="upButton" onclick="UP()">上がる</button>
+        <button id="downButton" onclick="DOWN()">下がる</button>
+    </div>
+    <dev id="reslut_up">正解は「上がるでした」</dev>
+    <div id="reslut_down">正解は「下がる」でした</div>
+    <div id="reslut_right">お見事!!</div>
+    <button id="next" onclick="NEXT()">次へ</button>
+    
+    <script src="kabu.js"></script>
+</body>
+
+</html>
