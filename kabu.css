@@ -1,8 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 body {
-    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    margin: 0;
+    padding: 20px;
 }
+
+h1 {
+    font-size: 3em;
+    color: #3498db;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px #aaa;
+    letter-spacing: 2px;
+}
+
+.input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.input-container label {
+    font-size: 1.2em;
+    margin-right: 10px;
+    align-self: center;
+    color: #555;
+}
+
+.input-container input {
+    width: 120px;
+    padding: 10px;
+    font-size: 1.2em;
+    text-align: center;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    margin-right: 20px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-container input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+}
+
 .chart-container {
-    width: 800px;
-    height: 400px;
-    margin: auto;
+    width: 90%;
+    max-width: 800px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chart-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+#company_name {
+    font-size: 2em;
+    color: #3498db;
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+    text-shadow: 1px 1px 2px #aaa;
+}
+
+#reslut_up, #reslut_down, #reslut_right {
+    font-size: 2em;
+    color: #3498db;
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+    text-shadow: 1px 1px 2px #aaa;
+}
+
+.button-container {
+    position: absolute;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 80%;
+    max-width: 600px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    top: 105%;
+    left: 28%;
+}
+
+.button-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    color: #fff;
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
+    transform: translateY(-3px);
+}
+
+.point {
+    width: 300px;
+    height: 80px;
+    background-color: #FFF;
+    color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    font-size: 20px;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+}
+
+.bt {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 30%;
+    max-width: 600px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bt:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.select-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: lightgray;
+    border: none;
+    border-radius: 5px;
+}
+
+.select-button.selected {
+    background-color: blue;
+    color: white;
 }

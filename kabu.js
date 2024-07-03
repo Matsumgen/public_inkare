@@ -1,7 +1,28 @@
-let filename = 'stock1.csv';
-let min = 1000;
+let filename = 'stock1_minte.csv';
 let myChart = null;
-let company_name = "日経平均";
+let company_name = "△△株式会社";
+let point = 100;
+let min_data = new Map();
+min_data.set("stock1_minte.csv", 950);
+min_data.set("stock2_minte.csv", 920);
+min_data.set("stock3_minte.csv", 940);
+min_data.set("stock1_daily.csv", 920);
+min_data.set("stock2_daily.csv", 960);
+min_data.set("stock3_daily.csv", 950);
+min_data.set("stock1_weekly.csv", 960);
+min_data.set("stock2_weekly.csv", 1000);
+min_data.set("stock3_weekly.csv", 960);
+min_data.set("stock1_reslut.csv", 900);
+min_data.set("stock2_reslut.csv", 950);
+min_data.set("stock3_reslut.csv", 950);
+let min = min_data.get("stock1_minte.csv");
+
+//結果の配列   0:上がる  1:下がる
+let reslut = [1, 0, 1];
+
+function print_point() {
+    document.getElementById('point').innerHTML = "ポイント  " + point;
+}
 
 function hideObject(ObjectId) {
     //指定されたidの要素を非表示にする
@@ -58,9 +79,6 @@ async function drawChart() {
                 y: {
                     beginAtZero: true,
                     min: min // Y軸の最小値を設定
-                },
-                x: {
-                    max: '13:00'
                 }
             },
             elements: {
@@ -87,12 +105,21 @@ async function drawChart() {
 
 function change_file() {
     //ファイル名や、パラメータを変更する
-    filename = filename == 'stock1.csv' ? 'stock1_reslut.csv' : filename == 'stock1_reslut.csv' ? 'stock2.csv' : filename == 'stock2.csv' ? 'stock2_reslut.csv' : filename == 'stock2_reslut.csv' ? 'stock3.csv' : 'stock3_reslut.csv';
-    min = min == 1000 ? 1100 : min == 1100 ? 1200 : min == 1200 ? 1300 : min == 1300 ? 1400 : 1500;
+    let index = Number(filename.substring(5, 6)) + 1;
+    index = index <= 3 ? index : 1;
+    if (filename.substring(7, 12) == 'weekl' || filename.substring(7, 12) == 'minte' || filename.substring(7, 12) == 'daily') {
+        let index = Number(filename.substring(5, 6));
+        filename = 'stock' + index + '_reslut.csv';
+    } else {
+        let index = Number(filename.substring(5, 6)) + 1;
+        index = index <= 3 ? index : 1;
+        filename = 'stock' + index + '_minte.csv';
+    }
+    min = min_data.get(filename);
 }
 
 function change_name() {
-    company_name = company_name == '日経平均' ? '⚪︎⚪︎株式会社' : '××株式会社';
+    company_name = company_name == '△△株式会社' ? '⚪︎⚪︎株式会社' : company_name == '⚪︎⚪︎株式会社' ? '××株式会社' : '△△株式会社';
     const div = document.getElementById('company_name');
     if (div) {
         div.innerHTML = company_name; // 指定された新しい内容に変更
@@ -100,23 +127,65 @@ function change_name() {
 }
 
 async function UP() {
-    alert("不正解!!");
-    change_file();
-    await drawChart();
-    hideObject("button");
-    hideObject("company_name");
-    showObject("reslut_up");
-    showObject("next");
+    let days = Number(document.getElementById('days_number').value);
+    let point_in = Number(document.getElementById('point_number').value);
+    if (days == '' || point_in == '') {
+        alert("期間、賭け金を入力してください!");
+    } else if (days < 0 || point_in < 0 || days > 30 || point_in > point) {
+        alert("適切な期間、賭け金を入力してください!");
+    } else {
+        change_file();
+        await drawChart();
+        hideObject("button");
+        hideObject("bt");
+        hideObject("company_name");
+        if (reslut[filename.substring(5, 6) - 1] == 0) {
+            document.getElementById('reslut_right').innerHTML = "お見事  +" + point_in * days * 0.1 + "ポイント";
+            showObject("reslut_right");
+            alert("正解!!");
+            point = point + point_in * days * 0.1;
+        } else {
+            showObject("reslut_down");
+            alert("不正解!!");
+            point = point - point_in * days * 0.1;
+            if (point < 0) {
+                point = 0;
+            }
+        }
+        showObject("next");
+        print_point();
+    }
 }
 
 async function DOWN() {
-    alert("正解!!");
-    change_file();
-    await drawChart();
-    hideObject("button");
-    hideObject("company_name");
-    showObject("reslut_right");
-    showObject("next");
+    let days = Number(document.getElementById('days_number').value);
+    let point_in = Number(document.getElementById('point_number').value);
+    if (days == '' || point_in == '') {
+        alert("期間、賭け金を入力してください!");
+    } else if (days < 0 || point_in < 0 || days > 30 || point_in > point) {
+        alert("適切な期間、賭け金を入力してください!");
+    } else {
+        change_file();
+        await drawChart();
+        hideObject("button");
+        hideObject("bt");
+        hideObject("company_name");
+        if (reslut[filename.substring(5, 6) - 1] == 1) {
+            document.getElementById('reslut_right').innerHTML = "お見事  +" + point_in * days * 0.1 + "ポイント";
+            showObject("reslut_right");
+            alert("正解!!");
+            point = point + point_in * days * 0.1;
+        } else {
+            showObject("reslut_up");
+            alert("不正解!!");
+            point = point - point_in * days * 0.1;
+            if (point < 0) {
+                point = 0;
+            }
+        }
+        showObject("next");
+        print_point();
+    }
 }
 
 async function NEXT() {
@@ -128,7 +197,34 @@ async function NEXT() {
     hideObject("reslut_right");
     hideObject("next");
     showObject("button");
+    showObject("bt");
     showObject("company_name");
+    print_point();
+    //selectedクラスのついたものを1分足にする
+    const buttons = document.querySelectorAll('.select-button');
+    buttons.forEach(btn => btn.classList.remove('selected')); // すべてのボタンからselectedクラスを削除
+    const button1 = document.getElementById('button1');
+    if (button1) {
+        button1.classList.add('selected'); // idがbutton1の要素にselectedクラスを追加
+    }
+}
+
+async function minute() {
+    filename = filename.substring(0, 7) + 'minte.csv';
+    min = min_data.get(filename);
+    await drawChart();
+}
+
+async function day() {
+    filename = filename.substring(0, 7) + 'daily.csv';
+    min = min_data.get(filename);
+    await drawChart();
+}
+
+async function week() {
+    filename = filename.substring(0, 7) + 'weekly.csv';
+    min = min_data.get(filename);
+    await drawChart();
 }
 
 drawChart();
@@ -138,3 +234,15 @@ hideObject("reslut_up");
 hideObject("reslut_down");
 hideObject("reslut_right");
 hideObject("next");
+print_point();
+
+document.addEventListener('DOMContentLoaded', function () {
+    const buttons = document.querySelectorAll('.select-button'); // すべての選択ボタンを選択
+
+    buttons.forEach(button => {
+        button.addEventListener('click', function () {
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            this.classList.add('selected'); // クリックされたボタンに 'selected' クラスを追加
+        });
+    });
+});
