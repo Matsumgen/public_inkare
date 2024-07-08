@@ -3,13 +3,13 @@ let myChart = null;
 let company_name = "△△株式会社";
 let point = 100;
 let min_data = new Map();
-min_data.set("stock1_minte.csv", 950);
+min_data.set("stock1_minte.csv", 10650);
 min_data.set("stock2_minte.csv", 920);
 min_data.set("stock3_minte.csv", 940);
-min_data.set("stock1_daily.csv", 920);
+min_data.set("stock1_daily.csv", 8450);
 min_data.set("stock2_daily.csv", 960);
 min_data.set("stock3_daily.csv", 950);
-min_data.set("stock1_weekly.csv", 960);
+min_data.set("stock1_weekly.csv", 6150);
 min_data.set("stock2_weekly.csv", 1000);
 min_data.set("stock3_weekly.csv", 960);
 min_data.set("stock1_reslut.csv", 900);
@@ -18,7 +18,7 @@ min_data.set("stock3_reslut.csv", 950);
 let min = min_data.get("stock1_minte.csv");
 
 //結果の配列   0:上がる  1:下がる
-let reslut = [1, 0, 1];
+let reslut = [1, 1, 0];
 
 function print_point() {
     document.getElementById('point').innerHTML = "ポイント  " + point;
@@ -103,6 +103,88 @@ async function drawChart() {
     });
 }
 
+async function fetchData() {
+    //csvデータを読み込む
+    const response = await fetch(`${filename}?t=${new Date().getTime()}`);
+    const data = await response.text();
+    return data.split('\n').slice(1).map(row => {
+        const [name, value] = row.split(',');
+        return { name, value: parseFloat(value) };
+    });
+}
+
+async function fetchData2() {
+    //csvデータを読み込む
+    const response = await fetch(`${filename}?t=${new Date().getTime()}`);
+    const data = await response.text();
+    return data.split('\n').slice(1).map(row => {
+        const [date, value1, value2] = row.split(',');
+        return { date, value1: parseFloat(value1), value2: parseFloat(value2) };
+    });
+}
+
+async function drawChart2() {
+    //グラフを描く
+    const data = await fetchData2();
+    const labels = data.map(d => d.date);
+    const values1 = data.map(d => d.value1);
+    const values2 = data.map(d => d.value2);
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+
+    if (myChart) {
+        myChart.destroy(); // 既存のチャートを破棄
+    }
+
+    myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '',
+                data: values1,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2
+            },
+            {
+                label: '',
+                data: values2,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    min: min // Y軸の最小値を設定
+                }
+            },
+            elements: {
+                point: {
+                    radius: 4 // 点の半径を設定
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true // レジェンドを表示に設定
+                },
+                tooltip: {
+                    mode: 'index', // ツールチップがインデックスモードで表示されるように設定
+                    intersect: false
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                }
+            }
+        }
+    });
+}
+
+
 function change_file() {
     //ファイル名や、パラメータを変更する
     let index = Number(filename.substring(5, 6)) + 1;
@@ -135,7 +217,7 @@ async function UP() {
         alert("適切な期間、賭け金を入力してください!");
     } else {
         change_file();
-        await drawChart();
+        await drawChart2();
         hideObject("button");
         hideObject("bt");
         hideObject("company_name");
@@ -166,7 +248,7 @@ async function DOWN() {
         alert("適切な期間、賭け金を入力してください!");
     } else {
         change_file();
-        await drawChart();
+        await drawChart2();
         hideObject("button");
         hideObject("bt");
         hideObject("company_name");
