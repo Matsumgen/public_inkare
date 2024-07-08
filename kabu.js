@@ -1,17 +1,17 @@
 let filename = 'stock1_minte.csv';
 let myChart = null;
-let company_name = "△△株式会社";
+let company_name = "三井住友ファイナンシャルグループ";
 let point = 100;
 let min_data = new Map();
 min_data.set("stock1_minte.csv", 10650);
-min_data.set("stock2_minte.csv", 920);
-min_data.set("stock3_minte.csv", 940);
+min_data.set("stock2_minte.csv", 13650);
+min_data.set("stock3_minte.csv", 40300);
 min_data.set("stock1_daily.csv", 8450);
-min_data.set("stock2_daily.csv", 960);
-min_data.set("stock3_daily.csv", 950);
+min_data.set("stock2_daily.csv", 11500);
+min_data.set("stock3_daily.csv", 39000);
 min_data.set("stock1_weekly.csv", 6150);
-min_data.set("stock2_weekly.csv", 1000);
-min_data.set("stock3_weekly.csv", 960);
+min_data.set("stock2_weekly.csv", 11600);
+min_data.set("stock3_weekly.csv", 31000);
 min_data.set("stock1_reslut.csv", 900);
 min_data.set("stock2_reslut.csv", 950);
 min_data.set("stock3_reslut.csv", 950);
@@ -201,7 +201,7 @@ function change_file() {
 }
 
 function change_name() {
-    company_name = company_name == '△△株式会社' ? '⚪︎⚪︎株式会社' : company_name == '⚪︎⚪︎株式会社' ? '××株式会社' : '△△株式会社';
+    company_name = company_name == '三井住友ファイナンシャルグループ' ? 'ソニーグループ' : company_name == 'ソニーグループ' ? 'ファーストリテイリング' : '三井住友ファイナンシャルグループ';
     const div = document.getElementById('company_name');
     if (div) {
         div.innerHTML = company_name; // 指定された新しい内容に変更
