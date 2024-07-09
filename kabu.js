@@ -12,13 +12,13 @@ min_data.set("stock3_daily.csv", 39000);
 min_data.set("stock1_weekly.csv", 6150);
 min_data.set("stock2_weekly.csv", 11600);
 min_data.set("stock3_weekly.csv", 31000);
-min_data.set("stock1_reslut.csv", 900);
-min_data.set("stock2_reslut.csv", 950);
-min_data.set("stock3_reslut.csv", 950);
+min_data.set("stock1_reslut.csv", 10500);
+min_data.set("stock2_reslut.csv", 13600);
+min_data.set("stock3_reslut.csv", 40000);
 let min = min_data.get("stock1_minte.csv");
 
 //結果の配列   0:上がる  1:下がる
-let reslut = [1, 1, 0];
+let reslut = [[16, 23], [30, 50], [19, 50]];
 
 function print_point() {
     document.getElementById('point').innerHTML = "ポイント  " + point;
@@ -221,15 +221,15 @@ async function UP() {
         hideObject("button");
         hideObject("bt");
         hideObject("company_name");
-        if (reslut[filename.substring(5, 6) - 1] == 0) {
-            document.getElementById('reslut_right').innerHTML = "お見事  +" + point_in * days * 0.1 + "ポイント";
+        if (!(reslut[filename.substring(5, 6) - 1][0] <= days && reslut[filename.substring(5, 6) - 1][1] >= days)) {
+            document.getElementById('reslut_right').innerHTML = "お見事  +" + point_in * days + "ポイント";
             showObject("reslut_right");
             alert("正解!!");
-            point = point + point_in * days * 0.1;
+            point = point + point_in * days;
         } else {
             showObject("reslut_down");
             alert("不正解!!");
-            point = point - point_in * days * 0.1;
+            point = point - point_in * days;
             if (point < 0) {
                 point = 0;
             }
@@ -252,15 +252,15 @@ async function DOWN() {
         hideObject("button");
         hideObject("bt");
         hideObject("company_name");
-        if (reslut[filename.substring(5, 6) - 1] == 1) {
-            document.getElementById('reslut_right').innerHTML = "お見事  +" + point_in * days * 0.1 + "ポイント";
+        if (reslut[filename.substring(5, 6) - 1][0] <= days && reslut[filename.substring(5, 6) - 1][1] >= days) {
+            document.getElementById('reslut_right').innerHTML = "お見事  +" + point_in * days + "ポイント";
             showObject("reslut_right");
             alert("正解!!");
-            point = point + point_in * days * 0.1;
+            point = point + point_in * days;
         } else {
             showObject("reslut_up");
             alert("不正解!!");
-            point = point - point_in * days * 0.1;
+            point = point - point_in * days;
             if (point < 0) {
                 point = 0;
             }
