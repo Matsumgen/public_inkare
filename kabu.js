@@ -231,7 +231,7 @@ async function UP() {
             alert("不正解!!");
             point = point - point_in * days;
             if (point < 0) {
-                point = 0;
+                point = 1;
             }
         }
         showObject("next");
@@ -262,7 +262,7 @@ async function DOWN() {
             alert("不正解!!");
             point = point - point_in * days;
             if (point < 0) {
-                point = 0;
+                point = 1;
             }
         }
         showObject("next");
